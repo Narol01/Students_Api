@@ -39,14 +39,14 @@ public class StudentRepositoryImpl implements StudentRepository{
     @Override
     public Boolean addScore(Integer id, ScoreDto scoreDto) {
         Student student=findById(id).orElseThrow(StudentNotFoundException::new);
-        if (scoreDto ==null){
+        Map<String, Integer> scores = student.getScores();
+
+        if (scores.containsKey(scoreDto.getExamName())) {
             return false;
         }
-        else {
             student.addScore(scoreDto.getExamName(), scoreDto.getScore());
             return true;
         }
-    }
 
     @Override
     public Iterable<Student> findByName(String name) {

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 @Component
 public class StudentsServiceImpl implements StudentService{
@@ -48,13 +49,14 @@ public class StudentsServiceImpl implements StudentService{
 
     @Override
     public Boolean addScore(Integer id, ScoreDto scoreDto) {
-        if (scoreDto ==null){
+        StudentDto studentDto = findStudent(id);
+        Map<String,Integer> scores =studentDto.getScores();
+
+        if (scores.containsKey(scoreDto.getExamName())) {
             return false;
         }
-        else {
             studentRepository.addScore(id, scoreDto);
             return true;
-        }
     }
 
     @Override
